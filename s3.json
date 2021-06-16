@@ -1,28 +1,16 @@
-var AWS = require('aws-sdk');
-AWS.config.update({ region: 'us-east-1' });
-var s3 = new AWS.S3();
-
-var obj = {
-    firstname: "Naman",
-    lastname: "Bhardwaj"
-};
-
-var buf = Buffer.from(JSON.stringify(obj));
-
-var data = {
-    Bucket: 'bucket-name',
-    Key: 'filename.json',
-    Body: buf,
-    ContentEncoding: 'base64',
-    ContentType: 'application/json',
-    ACL: 'public-read'
-};
-
-s3.upload(data, function (err, data) {
-    if (err) {
-        console.log(err);
-        console.log('Error uploading data: ', data);
-    } else {
-        console.log('succesfully uploaded!!!');
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Resources": {
+        "S3Bucket": {
+            "Type": "AWS::S3::Bucket"
+        }
+    },
+    "Outputs": {
+        "BucketName": {
+            "Value": {
+                "Ref": "S3Bucket"
+            },
+            "Description": "Name of the sample Amazon S3 bucket."
+        }
     }
-});
+}
